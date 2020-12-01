@@ -8,8 +8,10 @@ import {
   NavLink,
 } from "react-router-dom";
 
+import Navbar from "./components/Navbar/Navbar";
+import PokemonGenerations from './components/Generations/Generations'
 import Pokedex from "./components/Pokedex/Pokedex";
-import Loader from './components/Loader'
+import Loader from "./components/Loader";
 import PokemonDetails from "./components/PokemonDetails";
 
 import {
@@ -121,17 +123,26 @@ function App() {
 
   return (
     <Router>
-      <AppBar position="static">
-        <Link to="/">
-          <Tab label="Home" />
-        </Link>
-        <Link to="/pokemon">
-          <Tab label="List of Pokemons" />
-        </Link>
-      </AppBar>
+      <Navbar />
       <Switch>
-        <Route exact path="/pokemon/:pokemonId">
+        {/* <Route path="/">
           <PokemonDetails />
+        </Route> */}
+        <Route exact path="/generations">
+          <PokemonGenerations />
+        </Route>
+        <Route exact path="/pokedex">
+          {isLoading ? (
+            <Loader />
+          ) : (
+            <Pokedex
+              pokemons={pokemonData}
+              handleNextPage={handleNextPage}
+              handlePreviousPage={handlePreviousPage}
+              // pokemonsDetails={pokemonNamesJap}
+              // totalPages={totalPages}
+            />
+          )}
         </Route>
         <Route exact path="/">
           {isLoading ? (

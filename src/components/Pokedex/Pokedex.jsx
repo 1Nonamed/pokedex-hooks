@@ -70,6 +70,13 @@ const getTypes = (types) => {
 //   });
 //   return pokemonStats;
 // };
+const pokemonId = (number, length) => {
+  let str = '' + number;
+  while (str.length < length) {
+    str = '0' + str;
+  }
+  return str;
+}
 
 const Pokedex = (props) => {
   const { pokemons, handleNextPage, handlePreviousPage } = props;
@@ -80,9 +87,11 @@ const Pokedex = (props) => {
   //   document.body.style.backgroundColor = 'white'
   // }, []);
 
+  
+
   return (
     <>
-      <Grid item xs={12} className={classes.pokedexContainer}>
+      <Grid item xs={12} md={9} lg={6} className={classes.pokedexContainer}>
         <div>
           <Button variant="outlined" onClick={handlePreviousPage}>
             Preview Page
@@ -98,7 +107,7 @@ const Pokedex = (props) => {
                 <Grid className={`${pokemon.types[0].type.name} card`}>
                   <div>
                     <h3 className="pokemonNumber">
-                      {/* # {getIdAsNumber(pokemon.id)} */}#{pokemon.id}
+                      {pokemonId(pokemon.id, 3)}
                     </h3>
                     <h1 className="pokemonName">{pokemon.name}</h1>
                   </div>
