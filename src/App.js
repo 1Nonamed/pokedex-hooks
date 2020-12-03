@@ -7,12 +7,12 @@ import {
   Link,
   NavLink,
 } from "react-router-dom";
-
-import Navbar from "./components/Navbar/Navbar";
-import PokemonGenerations from './components/Generations/Generations'
-import Pokedex from "./components/Pokedex/Pokedex";
 import Loader from "./components/Loader";
-import PokemonDetails from "./components/PokemonDetails";
+import Navbar from "./components/Navbar/Navbar";
+import Pokedex from "./components/Pokedex/Pokedex";
+import GenerationCard from "./components/Generations/GenerationCard";
+import PokemonGenerations from "./components/Generations/Generations";
+import PokemonDetails from "./components/PokemonDetails/PokemonDetails";
 
 import {
   AppBar,
@@ -36,7 +36,6 @@ function App() {
     async function getData() {
       const response = await getAllPokemons(pokemonUrl);
       const data = response.data;
-      console.log(data);
       setNextPage(data.next);
       setPrevPage(data.previous);
       await getAllPokemonsData(data.results);
@@ -57,8 +56,7 @@ function App() {
     });
   };
 
-  const getAllPokemonsData = async (data) => {
-    console.log(data);
+  const getAllPokemonsData = (async (data) => {
     const allPokemonsData = await Promise.all(
       data.map(async (pokemon) => {
         let pokemonsData = await getPokemonsData(pokemon.url);
@@ -66,7 +64,7 @@ function App() {
       })
     );
     setPokemonData(allPokemonsData);
-  };
+  });
 
   const getPokemonsData = async (url) => {
     return new Promise((resolve, reject) => {
@@ -100,7 +98,6 @@ function App() {
   const handleNextPage = async () => {
     setIsLoading(true);
     const data = await getAllPokemons(nextPage);
-    console.log(data);
     await getAllPokemonsData(data.data.results);
     setNextPage(data.data.next);
     setPrevPage(data.data.previous);
@@ -113,7 +110,6 @@ function App() {
     } else {
       setIsLoading(true);
       const data = await getAllPokemons(prevPage);
-      console.log(data);
       await getAllPokemonsData(data.data.results);
       setNextPage(data.data.next);
       setPrevPage(data.data.previous);
@@ -125,13 +121,16 @@ function App() {
     <Router>
       <Navbar />
       <Switch>
-        {/* <Route path="/">
+        <Route path="/pokemon/:pokemonName/:pokemonId">
           <PokemonDetails />
-        </Route> */}
-        <Route exact path="/generations">
+        </Route>
+        <Route path="/generations/:generationName">
+          <h1>Aquí va una lista de pokemones de la generación</h1>
+        </Route>
+        <Route path="/generations">
           <PokemonGenerations />
         </Route>
-        <Route exact path="/pokedex">
+        <Route path="/pokedex">
           {isLoading ? (
             <Loader />
           ) : (
@@ -157,6 +156,22 @@ function App() {
             />
           )}
         </Route>
+        <Route path="*">
+          <h1>404 Not Found :(</h1>
+        </Route>
+        {/* <Route exact path="/">
+          {isLoading ? (
+            <Loader />
+          ) : (
+            <Pokedex
+              pokemons={pokemonData}
+              handleNextPage={handleNextPage}
+              handlePreviousPage={handlePreviousPage}
+              // pokemonsDetails={pokemonNamesJap}
+              // totalPages={totalPages}
+            />
+          )}
+        </Route> */}
       </Switch>
     </Router>
   );

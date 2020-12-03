@@ -1,43 +1,47 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { getAllGenerations } from "../../Api-calls";
-import GenerationCard from './GenerationCard'
+import { getAllGenerations, getGenerationData } from "../../Api-calls";
+import GenerationCard from "./GenerationCard";
+import Loader from "../../components/Loader";
 
 function PokemonGenerations() {
-  const [generations, setGenerations] = useState([]);
+  const [generationsData, setGenerationsData] = useState([
+    { names: [{ languaje: "" }, { name: "Pokemon" }] },
+  ]);
+  const [isDataLoading, setisDataLoading] = useState(true);
+
   let urlGenerations = "https://pokeapi.co/api/v2/generation/";
 
   useEffect(() => {
     async function getData() {
       const response = await getAllGenerations(urlGenerations);
-      const data = response.data.results
-      setGenerations(data)
-      console.log(data);
+      const data = response.data.results;
+      await getAllGenerationsData(data);
+      setisDataLoading(false);
     }
     getData();
-  }, []);
+  }, [urlGenerations]);
 
-  
-
-  const getGenerationData = async () => {
-    let url = "https://pokeapi.co/api/v2/generation/2/";
-    const response = await axios.get(url);
-    const data = response.data;
-    console.log(data);
+  const getAllGenerationsData = async (data) => {
+    const allGenerationsData = await Promise.all(
+      data.map(async (gen) => {
+        let generationData = await getGenerationData(gen.url);
+        return generationData;
+      })
+    );
+    setGenerationsData(allGenerationsData);
   };
 
   return (
     <div>
-      <h1>Aquí van las generaciones</h1>
-      {generations.map((generation) => {
-        return (
-          <div>
-            <GenerationCard />
-            <div>{generation.name}</div>
-            <div>{generation.url}</div>
-          </div>
-        );
-      })}
+      {isDataLoading ? (
+        <Loader />
+      ) : (
+        <>
+          <h1>Aquí van las generaciones</h1>
+          <GenerationCard generationsData={generationsData} />
+        </>
+      )}
     </div>
   );
 }

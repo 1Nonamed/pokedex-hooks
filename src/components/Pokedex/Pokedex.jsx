@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "../../App.css";
 import axios from "axios";
+import { Link } from "react-router-dom";
 import Grid from "@material-ui/core/Grid";
 import { Card, CardContent, Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
@@ -49,6 +50,7 @@ const getTypes = (types) => {
   const pokemonTypes = types.map((type) => {
     return (
       <div className="type-btn">
+        {/* <img src="https://cdn.bulbagarden.net/upload/8/87/GO_Flying.png" alt={type.type.name}/> */}
         <div className="type-name">{type.type.name}</div>
       </div>
     );
@@ -56,38 +58,21 @@ const getTypes = (types) => {
   return pokemonTypes;
 };
 
-// OBTENER STATS NO BORRAR - FUNCIONA
-// const getStats = (stats) => {
-//   console.log(stats);
-//   const pokemonStats = stats.map((stat, i) => {
-//     return (
-//       <div key={i + 1}>
-//         <div>
-//           {stat.stat.name} : {stat.base_stat}
-//         </div>
-//       </div>
-//     );
-//   });
-//   return pokemonStats;
-// };
 const pokemonId = (number, length) => {
-  let str = '' + number;
+  let str = "" + number;
   while (str.length < length) {
-    str = '0' + str;
+    str = "0" + str;
   }
   return str;
-}
+};
 
 const Pokedex = (props) => {
   const { pokemons, handleNextPage, handlePreviousPage } = props;
-  console.log(props);
   const classes = useStyles();
 
   // useEffect(() => {
   //   document.body.style.backgroundColor = 'white'
   // }, []);
-
-  
 
   return (
     <>
@@ -129,7 +114,14 @@ const Pokedex = (props) => {
                       <span>Weight: {pokemon.weight}</span>
                     </div>
                   </div>
-                  <Button>See full stats</Button>
+                  <Link
+                    to={{
+                      pathname: `/pokemon/${pokemon.name}/${pokemon.id}`,
+                      state: { isLogged: true },
+                    }}
+                  >
+                    <Button>See full stats</Button>
+                  </Link>
                 </Grid>
               </Grid>
             );

@@ -13,6 +13,11 @@ body {
   /* background-color: purple; */
 }
 
+.cardgen {
+  margin: auto;
+  padding: 20px;
+}
+
 .imagen {
   position: absolute;
   top: -80px;
