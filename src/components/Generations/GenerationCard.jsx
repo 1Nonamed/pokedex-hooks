@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import "../../App.css";
 import { getPokemonGenData } from "../../Api-calls";
 import axios from "axios";
+import Loader from "../../components/Loader";
 import { Link } from "react-router-dom";
 import { Button } from "@material-ui/core";
 
@@ -9,6 +10,7 @@ function GenerationCard(props) {
   const { generationsData } = props;
   const [pokemonsGenUrl, setPokemonGenUrl] = useState([]);
   const [pokemonsGenInfo, setPokemonGenInfo] = useState([[]]);
+  const [isDataLoading, setisDataLoading] = useState(true);
 
   useEffect(() => {
     async function getPokemonsGenData() {
@@ -19,6 +21,7 @@ function GenerationCard(props) {
       });
       setPokemonGenUrl(pokemonsGenUrls);
       await getAllPokemonsGenData(pokemonsGenUrls);
+      setisDataLoading(false);
     }
     getPokemonsGenData();
   }, [generationsData]);
@@ -51,16 +54,20 @@ function GenerationCard(props) {
 
   return (
     <>
-      {generationsData.map((generation, index) => {
-        console.log(index);
-        return (
-          <div key={generation.id} className="cardgen">
-            <h3>{generation.id}</h3>
-            <h2>{generation.main_region.name}</h2>
-            {/* <h3>{generation.names[0].name}</h3> */}
-            <p>Inital Pokemons</p>
-            <div>
-              {/* {pokemonsGenInfo.map((pokemon, index) => {
+      {isDataLoading ? (
+        <Loader />
+      ) : (
+        <>
+          {generationsData.map((generation, index) => {
+            console.log(index);
+            return (
+              <div key={generation.id} className="cardgen">
+                <h3>{generation.id}</h3>
+                <h2>{generation.main_region.name}</h2>
+                {/* <h3>{generation.names[0].name}</h3> */}
+                <p>Inital Pokemons</p>
+                <div>
+                  {/* {pokemonsGenInfo.map((pokemon, index) => {
                 return (
                   <div>
                     {pokemon.map((pokemonData) => {
@@ -72,35 +79,38 @@ function GenerationCard(props) {
                   </div>
                 );
               })} */}
-              {generation.id === index + 1 ? (
-                <div>
-                  <img
-                    src={getImage(pokemonsGenInfo[index][0].id)}
-                    alt={pokemonsGenInfo.id}
-                  />
-                  <img
-                    src={getImage(pokemonsGenInfo[index][1].id)}
-                    alt={pokemonsGenInfo.id}
-                  />
-                  <img
-                    src={getImage(pokemonsGenInfo[index][2].id)}
-                    alt={pokemonsGenInfo.id}
-                  />
+                  {generation.id === index + 1 ? (
+                    <div>
+                      <img
+                        src={getImage(pokemonsGenInfo[index][0].id)}
+                        alt={pokemonsGenInfo.id}
+                      />
+                      <img
+                        src={getImage(pokemonsGenInfo[index][1].id)}
+                        alt={pokemonsGenInfo.id}
+                      />
+                      <img
+                        src={getImage(pokemonsGenInfo[index][2].id)}
+                        alt={pokemonsGenInfo.id}
+                      />
+                    </div>
+                  ) : (
+                    "Something went wrong"
+                  )}
                 </div>
-              ) : (
-                "Algo ha fallado"
-              )}
-            </div>
-            <Link
-              to={{
-                pathname: `/generations/${generation.main_region.name}/`,
-              }}
-            >
-              <Button>See list of Pokemons</Button>
-            </Link>
-          </div>
-        );
-      })}
+                <Link
+                  to={{
+                    pathname: `/generations/${generation.main_region.name}/`,
+                  }}
+                >
+                  <Button>See list of Pokemons</Button>
+                </Link>
+              </div>
+            );
+          })}
+        </>
+      )}
+
       {/* <div>
         {pokemonsGenInfo.map((pokemon, index) => {
           return (
