@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
+
+import {getFullImage} from '../../helpers'
 import "../../App.css";
-import axios from "axios";
+import '../../PokemonColors.css'
 import { Link } from "react-router-dom";
-import Grid from "@material-ui/core/Grid";
-import { Card, CardContent, Button } from "@material-ui/core";
+import { Grid, Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles({
@@ -24,34 +24,12 @@ const useStyles = makeStyles({
   },
 });
 
-const getIdAsNumber = (id) => {
-  let pokemonId = 0;
-
-  id < 10
-    ? (pokemonId = `00${id}`)
-    : id < 100
-    ? (pokemonId = `0${id}`)
-    : (pokemonId = { id });
-
-  return pokemonId;
-};
-
-const getImage = (id) => {
-  let pokemonImg = "";
-  id < 10
-    ? (pokemonImg = `https://assets.pokemon.com/assets/cms2/img/pokedex/full/00${id}.png`)
-    : id < 100
-    ? (pokemonImg = `https://assets.pokemon.com/assets/cms2/img/pokedex/full/0${id}.png`)
-    : (pokemonImg = `https://assets.pokemon.com/assets/cms2/img/pokedex/full/${id}.png`);
-  return pokemonImg;
-};
-
 const getTypes = (types) => {
-  const pokemonTypes = types.map((type) => {
+  const pokemonTypes = types.map((type, index) => {
     return (
-      <div className="type-btn">
+      <div key={index + 1} className="type-btn">
         {/* <img src="https://cdn.bulbagarden.net/upload/8/87/GO_Flying.png" alt={type.type.name}/> */}
-        <div className="type-name">{type.type.name}</div>
+        <div className={"type-name"}>{type.type.name}</div>
       </div>
     );
   });
@@ -85,10 +63,10 @@ const Pokedex = (props) => {
             Next Page
           </Button>
         </div>
-        <Grid container spacing={2}>
+        <Grid container justify="center">
           {pokemons.map((pokemon) => {
             return (
-              <Grid key={pokemon.id} item xs={12} sm={6}>
+              <Grid key={pokemon.id} item xs={11} sm={6}>
                 <Grid className={`${pokemon.types[0].type.name} card`}>
                   <div>
                     <h3 className="pokemonNumber">
@@ -98,7 +76,7 @@ const Pokedex = (props) => {
                   </div>
                   <img
                     className="imagen"
-                    src={getImage(pokemon.id)}
+                    src={getFullImage(pokemon.id)}
                     alt={pokemon.name}
                   />
 
@@ -120,7 +98,7 @@ const Pokedex = (props) => {
                       state: { isLogged: true },
                     }}
                   >
-                    <Button>See full stats</Button>
+                    <Button variant="contained" color="secondary">See full stats</Button>
                   </Link>
                 </Grid>
               </Grid>

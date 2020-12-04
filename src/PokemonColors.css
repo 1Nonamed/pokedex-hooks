@@ -1,0 +1,107 @@
+/* Initial Types */
+
+.grass {
+  background-color: #7dd181;
+}
+
+.water {
+  background-color: #87cefa;
+}
+
+.fire {
+  background-color: #f68e5f;
+}
+
+.bug {
+  background-color: #71b340;
+}
+
+.poison {
+  background-color: #bdb2ff;
+}
+
+.normal {
+  background-color: #d1d1d1;
+}
+
+.fighting {
+  background-color: #f0e6ef;
+}
+
+.flying {
+  background-color: #bde0fe;
+}
+
+.ground {
+  background-color: #b3895d;
+}
+
+.rock {
+  background-color: #bfa89e;
+}
+
+.ghost {
+  background-color: #5e548e;
+}
+/* 4b3f72 */
+.steel {
+  background-color: #9ea3b0;
+}
+
+.electric {
+  background-color: #fcbf49;
+}
+
+.psychic {
+  background-color: #f7e693;
+}
+
+.ice {
+  background-color: #ceeeff;
+}
+
+.dragon {
+  background-color: #ffac81;
+}
+
+.dark {
+  background-color: #273043;
+}
+
+.fairy {
+  background-color: #ea9ab2;
+}
+.unknown {
+  background-color: #3a3a3a;
+}
+
+.shadow {
+  background-color: #9197ae;
+}
+
+/* GEN */
+.red-blue {
+  background: linear-gradient(45deg, #0267c1 20%, #f16464 20%);
+  /* background:linear-gradient(45deg, #e4454a62 0, #e4454a62 33%, #1267f080 33%, #1267f080 66%, #fffb1362 66%, #fffb1362 100%); */
+}
+.gold-silver {
+  background: linear-gradient(135deg, #f5c31e 20%, #e2e2e2 20%);
+}
+.ruby-sapphire {
+  background: linear-gradient(315deg, #c10c0c 20%, #a2b1e6 20%);
+}
+.diamond-pearl {
+  background: linear-gradient(225deg, #c2fcff 20%, #fdf9f1 20%);
+}
+.black-white {
+  background: linear-gradient(45deg, #000000 20%, #f5f3f3 20%);
+}
+.x-y {
+  background: linear-gradient(135deg, #f19b9b 20%, #ebe5da 20%);
+}
+.sun-moon {
+  background: linear-gradient(315deg, #f7e70a 20%, #d0e7ec 20%);
+}
+.sword-shield {
+  background: linear-gradient(225deg, #b8b6b6 20%, #b1e2f1 20%);
+}

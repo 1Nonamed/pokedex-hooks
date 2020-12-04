@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { getEvolutionChain } from "../../Api-calls";
+import { getEvolutionChain } from "../../helpers";
 import { useParams } from "react-router-dom";
 
 const PokemonDetails = () => {

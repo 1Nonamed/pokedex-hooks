@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import { getAllGenerations, getGenerationData } from "../../Api-calls";
+import { useState, useEffect } from "react";
+import { getAllGenerations, getGenerationData } from "../../helpers";
 import GenerationCard from "./GenerationCard";
 import Loader from "../../components/Loader";
+import { Grid, Typography } from "@material-ui/core";
+import "../../App.css";
 
 function PokemonGenerations() {
   const [generationsData, setGenerationsData] = useState([
@@ -38,7 +39,9 @@ function PokemonGenerations() {
         <Loader />
       ) : (
         <>
-          <h1>Aquí van las generaciones</h1>
+          <Typography variant="h2" color="secondary" align="center" gutterBottom>
+            Pokemon Generations
+          </Typography>
           <GenerationCard generationsData={generationsData} />
         </>
       )}

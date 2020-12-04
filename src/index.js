@@ -4,9 +4,23 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 
+import { ThemeProvider } from "@material-ui/core/styles";
+
+import { createMuiTheme } from "@material-ui/core/styles";
+import { deepOrange, orange } from "@material-ui/core/colors";
+
+const theme = createMuiTheme({
+  palette: {
+    primary: deepOrange,
+    secondary: orange,
+  },
+});
+
 ReactDOM.render(
   <React.StrictMode>
+    <ThemeProvider theme={theme}>
       <App />
+    </ThemeProvider>
   </React.StrictMode>,
   document.getElementById("root")
 );
