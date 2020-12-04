@@ -30,10 +30,7 @@ export const getAbilities = (abilities) => {
 export const getTypes = (types) => {
   const pokemonTypes = types.map((type, index) => {
     return (
-      <div
-        key={index + 1}
-        className={`type-btn type-flex`}
-      >
+      <div key={index + 1} className={`type-btn type-flex`}>
         {/* <img src="https://cdn.bulbagarden.net/upload/8/87/GO_Flying.png" alt={type.type.name}/> */}
         <div className={"type-name"}>{type.type.name}</div>
       </div>
@@ -43,6 +40,10 @@ export const getTypes = (types) => {
 };
 
 const colorArray = [
+  {
+    type: "none",
+    color: "#f5f2ef",
+  },
   {
     type: "grass",
     color: "#7dd181",
@@ -134,7 +135,7 @@ export const fn = (type) => {
   if (color) {
     return color.color;
   } else {
-    return "";
+    return color.none;
   }
 };
 
@@ -182,8 +183,8 @@ export const getPokemonsData = async (url) => {
 // POKEMON DETAILS
 export const getEvolutionChain = async (url) => {
   const responseEvolutionChain = await axios.get(url);
-    const evolutionData = responseEvolutionChain.data.chain;
-    return evolutionData;
+  const evolutionData = responseEvolutionChain.data.chain;
+  return evolutionData;
 };
 
 // GENERATIONS - REGIONS

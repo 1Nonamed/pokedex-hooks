@@ -19,6 +19,7 @@ function PokemonGenerations() {
       const data = response.data.results;
       await getAllGenerationsData(data);
       setisDataLoading(false);
+      document.body.style.backgroundColor = '#f5f2ef'
     }
     getData();
   }, [urlGenerations]);

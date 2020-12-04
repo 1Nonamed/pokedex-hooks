@@ -4,6 +4,7 @@ import "../../PokemonColors.css";
 import { Link } from "react-router-dom";
 import { Grid, Button, Typography, Box } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+import { useEffect } from "react";
 
 const useStyles = makeStyles({
   pokedexContainer: {
@@ -12,6 +13,7 @@ const useStyles = makeStyles({
     paddingLeft: "20px",
     paddingRight: "20px",
     paddingBottom: "20px",
+    backgroundColor: "white important!",
   },
 });
 
@@ -39,9 +41,19 @@ const Pokedex = (props) => {
   const { pokemons, handleNextPage, handlePreviousPage } = props;
   const classes = useStyles();
 
+  useEffect(() => {
+    document.body.style.backgroundColor = "#f5f2ef";
+  });
+
   return (
     <>
-      <Grid item xs={12} md={9} lg={6} className={`${classes.pokedexContainer}`}>
+      <Grid
+        item
+        xs={12}
+        md={9}
+        lg={6}
+        className={`${classes.pokedexContainer}`}
+      >
         <div>
           <Button variant="outlined" onClick={handlePreviousPage}>
             Preview Page

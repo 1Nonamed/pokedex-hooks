@@ -14,10 +14,11 @@ function GenerationListPokemons() {
     async function getGenerationData() {
       const res = await axios.get(
         `https://pokeapi.co/api/v2/generation/${generationId}/`
-      );
-      console.log(res.data);
-      setGenerationData(res.data);
-      setisDataLoading(false);
+        );
+        console.log(res.data);
+        setGenerationData(res.data);
+        setisDataLoading(false);
+        document.body.style.backgroundColor = '#f5f2ef'
     }
     getGenerationData();
   }, [generationId]);
