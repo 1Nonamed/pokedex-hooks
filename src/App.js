@@ -1,31 +1,16 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link,
-  NavLink,
-} from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Loader from "./components/Loader";
 import Navbar from "./components/Navbar/Navbar";
 import Pokedex from "./components/Pokedex/Pokedex";
-import GenerationCard from "./components/Generations/GenerationCard";
-import PokemonGenerations from "./components/Generations/Generations";
+import Generations from "./components/Generations/Generations";
+import GenerationList from "./components/Generations/GenerationList";
 import PokemonDetails from "./components/PokemonDetails/PokemonDetails";
-
-import {
-  AppBar,
-  Toolbar,
-  Typography,
-  Pagination,
-  Tab,
-  Button,
-} from "@material-ui/core/";
+import { getAllPokemons, getPokemonsData } from "./helpers";
 
 function App() {
   const [pokemonData, setPokemonData] = useState({});
-  // const [pokemonNamesJap, setPokemonNamesJap] = useState({ names: [] });
+  const [totalPokemons, setTotalPokemons] = useState(0)
   const [nextPage, setNextPage] = useState("");
   const [prevPage, setPrevPage] = useState("");
   const [isLoading, setIsLoading] = useState(true);
@@ -36,6 +21,7 @@ function App() {
     async function getData() {
       const response = await getAllPokemons(pokemonUrl);
       const data = response.data;
+      setTotalPokemons(data.count)
       setNextPage(data.next);
       setPrevPage(data.previous);
       await getAllPokemonsData(data.results);
@@ -43,20 +29,8 @@ function App() {
     }
     getData();
   }, []);
-
-  // useEffect(() => {
-  //   getAllPokemonsJapNames(pokemonData);
-  // }, [pokemonData]);
-
-  const getAllPokemons = async (url) => {
-    return new Promise((resolve, reject) => {
-      axios.get(url).then((data) => {
-        resolve(data);
-      });
-    });
-  };
-
-  const getAllPokemonsData = (async (data) => {
+  
+  const getAllPokemonsData = async (data) => {
     const allPokemonsData = await Promise.all(
       data.map(async (pokemon) => {
         let pokemonsData = await getPokemonsData(pokemon.url);
@@ -64,36 +38,7 @@ function App() {
       })
     );
     setPokemonData(allPokemonsData);
-  });
-
-  const getPokemonsData = async (url) => {
-    return new Promise((resolve, reject) => {
-      axios.get(url).then((data) => {
-        resolve(data.data);
-      });
-    });
   };
-
-  // JAPANESE
-  // const getAllPokemonsJapNames = async (data) => {
-  //   const pokemonsJapNames = await Promise.all(
-  //     data.map(async (pokemon) => {
-  //       let pokemonsData = await getPokemonsJapNames(
-  //         `https://pokeapi.co/api/v2/pokemon-species/${pokemon.id}`
-  //       );
-  //       return pokemonsData;
-  //     })
-  //   );
-  //   setPokemonNamesJap(pokemonsJapNames);
-  // };
-
-  // const getPokemonsJapNames = async (url) => {
-  //   return new Promise((resolve, reject) => {
-  //     axios.get(url).then((data) => {
-  //       resolve(data.data);
-  //     });
-  //   });
-  // };
 
   const handleNextPage = async () => {
     setIsLoading(true);
@@ -121,14 +66,14 @@ function App() {
     <Router>
       <Navbar />
       <Switch>
-        <Route path="/pokemon/:pokemonName/:pokemonId">
-          <PokemonDetails />
+        <Route path="/pokemon/:pokemonId/">
+          <PokemonDetails totalPokemons={totalPokemons}/>
         </Route>
-        <Route path="/generations/:generationName">
-          <h1>Aquí va una lista de pokemones de la generación</h1>
+        <Route path="/generations/:generationId">
+          <GenerationList />
         </Route>
         <Route path="/generations">
-          <PokemonGenerations />
+          <Generations />
         </Route>
         <Route path="/pokedex">
           {isLoading ? (
@@ -138,8 +83,6 @@ function App() {
               pokemons={pokemonData}
               handleNextPage={handleNextPage}
               handlePreviousPage={handlePreviousPage}
-              // pokemonsDetails={pokemonNamesJap}
-              // totalPages={totalPages}
             />
           )}
         </Route>
@@ -151,27 +94,12 @@ function App() {
               pokemons={pokemonData}
               handleNextPage={handleNextPage}
               handlePreviousPage={handlePreviousPage}
-              // pokemonsDetails={pokemonNamesJap}
-              // totalPages={totalPages}
             />
           )}
         </Route>
         <Route path="*">
           <h1>404 Not Found :(</h1>
         </Route>
-        {/* <Route exact path="/">
-          {isLoading ? (
-            <Loader />
-          ) : (
-            <Pokedex
-              pokemons={pokemonData}
-              handleNextPage={handleNextPage}
-              handlePreviousPage={handlePreviousPage}
-              // pokemonsDetails={pokemonNamesJap}
-              // totalPages={totalPages}
-            />
-          )}
-        </Route> */}
       </Switch>
     </Router>
   );

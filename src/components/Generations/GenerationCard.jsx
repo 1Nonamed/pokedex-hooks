@@ -3,25 +3,17 @@ import "../../App.css";
 import "../../PokemonColors.css";
 import { getPokemonGenData, getFullImage } from "../../helpers";
 import Loader from "../../components/Loader";
-
 import { Link } from "react-router-dom";
 import { Typography, Button, Grid, makeStyles } from "@material-ui/core";
 
 const useStyles = makeStyles({
-  pokedexContainer: {
+  genContainer: {
     margin: "auto",
     paddingTop: "10px",
-    // paddingLeft: "10px",
-    // paddingRight: "10px",
+    paddingLeft: "20px",
+    paddingRight: "20px",
     paddingBottom: "50px",
   },
-  // margin_y: {
-  //   marginTop: "1em",
-  //   marginBottom: "1em",
-  // },
-  titles: {
-    zIndex: 9999,
-  }
 });
 
 function GenerationCard(props) {
@@ -64,31 +56,28 @@ function GenerationCard(props) {
       {isDataLoading ? (
         <Loader />
       ) : (
-        <Grid item xs={12} md={9} lg={6} className={classes.pokedexContainer}>
+        <Grid item xs={12} md={9} lg={6} className={classes.genContainer}>
           <Grid container justify="center">
             {generationsData.map((generation, index) => {
               return (
                 <Grid item key={generation.id} xs={12} sm={6}>
                   <Grid
-                    className={`${generation.version_groups[0].name} cardgen`}
+                    className={`${generation.version_groups[0].name} card mh-320`}
                   >
                     <Typography variant="h4">
                       Generation {generation.id} : {generation.main_region.name}
                     </Typography>
-                    <Typography variant='subtitle1' component='h5'>{generation.version_groups[0].name}</Typography>
+                    <Typography variant="subtitle1" component="h5">
+                      {generation.version_groups[0].name}
+                    </Typography>
                     <Link
                       to={{
-                        pathname: `/generations/${generation.main_region.name}/`,
+                        pathname: `/generations/${generation.id}`,
                       }}
                     >
                       <Button>See list of Pokemons</Button>
                     </Link>
-                    <Typography
-                      variant="h5"
-                      component='h6'
-                      align="center"
-                      className={classes.margin_y}
-                    >
+                    <Typography variant="h5" component="h6" align="center">
                       Inital Pokemons
                     </Typography>
                     <div>

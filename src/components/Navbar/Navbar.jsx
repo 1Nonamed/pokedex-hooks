@@ -25,7 +25,7 @@ export default function Navbar() {
           <Link to="/">Home</Link>
         </ListItem>
         <ListItem button>
-          <Link to="/pokemon/">Pokemon Details</Link>
+          <Link to="/pokemon/bulbasaur">Pokemon Details</Link>
         </ListItem>
         <ListItem button>
           <Link to="/generations">Generations</Link>

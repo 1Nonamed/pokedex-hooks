@@ -1,9 +1,8 @@
-
-import {getFullImage} from '../../helpers'
+import { getFullImage } from "../../helpers";
 import "../../App.css";
-import '../../PokemonColors.css'
+import "../../PokemonColors.css";
 import { Link } from "react-router-dom";
-import { Grid, Button } from "@material-ui/core";
+import { Grid, Button, Typography, Box } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles({
@@ -13,14 +12,6 @@ const useStyles = makeStyles({
     paddingLeft: "20px",
     paddingRight: "20px",
     paddingBottom: "20px",
-  },
-  cardSpacing: {
-    padding: "10px",
-  },
-  moreSpacing: {
-    marginBottom: "60px",
-    display: "flex",
-    justifyContent: "space-around",
   },
 });
 
@@ -48,13 +39,9 @@ const Pokedex = (props) => {
   const { pokemons, handleNextPage, handlePreviousPage } = props;
   const classes = useStyles();
 
-  // useEffect(() => {
-  //   document.body.style.backgroundColor = 'white'
-  // }, []);
-
   return (
     <>
-      <Grid item xs={12} md={9} lg={6} className={classes.pokedexContainer}>
+      <Grid item xs={12} md={9} lg={6} className={`${classes.pokedexContainer}`}>
         <div>
           <Button variant="outlined" onClick={handlePreviousPage}>
             Preview Page
@@ -67,23 +54,23 @@ const Pokedex = (props) => {
           {pokemons.map((pokemon) => {
             return (
               <Grid key={pokemon.id} item xs={11} sm={6}>
-                <Grid className={`${pokemon.types[0].type.name} card`}>
-                  <div>
-                    <h3 className="pokemonNumber">
-                      {pokemonId(pokemon.id, 3)}
-                    </h3>
-                    <h1 className="pokemonName">{pokemon.name}</h1>
-                  </div>
+                <Box className={`${pokemon.types[0].type.name} card mh-170`}>
+                  <Typography variant="h6">
+                    {pokemonId(pokemon.id, 3)}
+                  </Typography>
+                  <Typography
+                    variant="h4"
+                    component="h1"
+                    className="pokemonName"
+                  >
+                    {pokemon.name}
+                  </Typography>
                   <img
-                    className="imagen"
+                    className="pokemonPokedexImg"
                     src={getFullImage(pokemon.id)}
                     alt={pokemon.name}
                   />
-
-                  {/* <div>{getName()}</div> */}
-
                   <div className="type-flex">{getTypes(pokemon.types)}</div>
-                  {/* {getStats(pokemon.stats)} */}
                   <div className="flex-column">
                     <div>
                       <span>Height: {pokemon.height}</span>
@@ -94,13 +81,12 @@ const Pokedex = (props) => {
                   </div>
                   <Link
                     to={{
-                      pathname: `/pokemon/${pokemon.name}/${pokemon.id}`,
-                      state: { isLogged: true },
+                      pathname: `/pokemon/${pokemon.id}`,
                     }}
                   >
-                    <Button variant="contained" color="secondary">See full stats</Button>
+                    <Button variant="contained">See full stats</Button>
                   </Link>
-                </Grid>
+                </Box>
               </Grid>
             );
           })}
