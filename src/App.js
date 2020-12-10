@@ -1,27 +1,31 @@
 import React, { useEffect, useState } from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { Switch, Route } from "react-router-dom";
 import Loader from "./components/Loader";
-import Navbar from "./components/Navbar/Navbar";
+import SignIn from "./components/SignIn";
+import PrivateRoute from "./components/PrivateRoute";
 import Pokedex from "./components/Pokedex/Pokedex";
 import Generations from "./components/Generations/Generations";
 import GenerationList from "./components/Generations/GenerationList";
 import PokemonDetails from "./components/PokemonDetails/PokemonDetails";
 import { getAllPokemons, getPokemonsData } from "./helpers";
+import Navbar from "./components/Navbar/Navbar";
 
 function App() {
   const [pokemonData, setPokemonData] = useState({});
-  const [totalPokemons, setTotalPokemons] = useState(0)
+  const [totalPokemons, setTotalPokemons] = useState(0);
   const [nextPage, setNextPage] = useState("");
   const [prevPage, setPrevPage] = useState("");
   const [isLoading, setIsLoading] = useState(true);
-
-  const pokemonUrl = "https://pokeapi.co/api/v2/pokemon?limit=20";
+  const [user, setUser] = useState(false);
 
   useEffect(() => {
     async function getData() {
-      const response = await getAllPokemons(pokemonUrl);
+      document.body.style.backgroundColor = "white";
+      const response = await getAllPokemons(
+        "https://pokeapi.co/api/v2/pokemon?limit=20"
+      );
       const data = response.data;
-      setTotalPokemons(data.count)
+      setTotalPokemons(data.count);
       setNextPage(data.next);
       setPrevPage(data.previous);
       await getAllPokemonsData(data.results);
@@ -29,7 +33,7 @@ function App() {
     }
     getData();
   }, []);
-  
+
   const getAllPokemonsData = async (data) => {
     const allPokemonsData = await Promise.all(
       data.map(async (pokemon) => {
@@ -63,45 +67,43 @@ function App() {
   };
 
   return (
-    <Router>
-      <Navbar />
-      <Switch>
-        <Route path="/pokemon/:pokemonId/">
-          <PokemonDetails totalPokemons={totalPokemons}/>
-        </Route>
-        <Route path="/generations/:generationId">
-          <GenerationList />
-        </Route>
-        <Route path="/generations">
-          <Generations />
-        </Route>
-        <Route path="/pokedex">
-          {isLoading ? (
-            <Loader />
-          ) : (
+    <Switch>
+      <PrivateRoute path="/pokemon/:pokemonId/">
+        <Navbar user={user} />
+        <PokemonDetails totalPokemons={totalPokemons} />
+      </PrivateRoute>
+      <PrivateRoute path="/generations/:generationId" user={user}>
+        <Navbar user={user} />
+        <GenerationList />
+      </PrivateRoute>
+      <Route path="/generations">
+        <Navbar user={user} />
+        <Generations />
+      </Route>
+      <PrivateRoute path="/pokedex" user={user}>
+        {isLoading ? (
+          <Loader />
+        ) : (
+          <>
+            <Navbar user={user} />
             <Pokedex
               pokemons={pokemonData}
               handleNextPage={handleNextPage}
               handlePreviousPage={handlePreviousPage}
             />
-          )}
-        </Route>
-        <Route exact path="/">
-          {isLoading ? (
-            <Loader />
-          ) : (
-            <Pokedex
-              pokemons={pokemonData}
-              handleNextPage={handleNextPage}
-              handlePreviousPage={handlePreviousPage}
-            />
-          )}
-        </Route>
-        <Route path="*">
-          <h1>404 Not Found :(</h1>
-        </Route>
-      </Switch>
-    </Router>
+          </>
+        )}
+      </PrivateRoute>
+      <Route exact path="/">
+        <SignIn setUserFn={setUser} />
+      </Route>
+      <Route exact path="/">
+        <SignIn setUserFn={setUser} />
+      </Route>
+      <Route path="*">
+        <h1>404 Not Found :(</h1>
+      </Route>
+    </Switch>
   );
 }
 

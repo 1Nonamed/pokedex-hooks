@@ -1,10 +1,11 @@
-import { getFullImage } from "../../helpers";
+import { getFullImage, getPokemonIdNumber } from "../../helpers";
 import "../../App.css";
 import "../../PokemonColors.css";
 import { Link } from "react-router-dom";
 import { Grid, Button, Typography, Box } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { useEffect } from "react";
+import Navbar from "../Navbar/Navbar";
 
 const useStyles = makeStyles({
   pokedexContainer: {
@@ -13,7 +14,7 @@ const useStyles = makeStyles({
     paddingLeft: "20px",
     paddingRight: "20px",
     paddingBottom: "20px",
-    backgroundColor: "white important!",
+    backgroundColor: "white",
   },
 });
 
@@ -27,14 +28,6 @@ const getTypes = (types) => {
     );
   });
   return pokemonTypes;
-};
-
-const pokemonId = (number, length) => {
-  let str = "" + number;
-  while (str.length < length) {
-    str = "0" + str;
-  }
-  return str;
 };
 
 const Pokedex = (props) => {
@@ -66,9 +59,11 @@ const Pokedex = (props) => {
           {pokemons.map((pokemon) => {
             return (
               <Grid key={pokemon.id} item xs={11} sm={6}>
-                <Box className={`${pokemon.types[0].type.name} card mh-170`}>
+                <Box
+                  className={`${pokemon.types[0].type.name} card p-relative mh-170`}
+                >
                   <Typography variant="h6">
-                    {pokemonId(pokemon.id, 3)}
+                    {getPokemonIdNumber(pokemon.id, 3)}
                   </Typography>
                   <Typography
                     variant="h4"
@@ -78,26 +73,21 @@ const Pokedex = (props) => {
                     {pokemon.name}
                   </Typography>
                   <img
-                    className="pokemonPokedexImg"
+                    className="p-absolute pokemonPokedexImg"
                     src={getFullImage(pokemon.id)}
                     alt={pokemon.name}
                   />
                   <div className="type-flex">{getTypes(pokemon.types)}</div>
-                  <div className="flex-column">
-                    <div>
-                      <span>Height: {pokemon.height}</span>
-                    </div>
-                    <div>
-                      <span>Weight: {pokemon.weight}</span>
-                    </div>
-                  </div>
-                  <Link
-                    to={{
-                      pathname: `/pokemon/${pokemon.id}`,
-                    }}
-                  >
-                    <Button variant="contained">See full stats</Button>
-                  </Link>
+
+                  <Button variant="contained">
+                    <Link
+                      to={{
+                        pathname: `/pokemon/${pokemon.id}`,
+                      }}
+                    >
+                      See full stats
+                    </Link>
+                  </Button>
                 </Box>
               </Grid>
             );

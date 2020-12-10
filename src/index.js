@@ -2,30 +2,32 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
-import reportWebVitals from "./reportWebVitals";
 
-import { ThemeProvider } from "@material-ui/core/styles";
+import { BrowserRouter as Router } from "react-router-dom";
+import "./firebase/config";
 
-import { createMuiTheme } from "@material-ui/core/styles";
-import { deepOrange, orange } from "@material-ui/core/colors";
+// import { ThemeProvider } from "@material-ui/core/styles";
 
-const theme = createMuiTheme({
-  palette: {
-    primary: deepOrange,
-    secondary: orange,
-  },
-});
+// import { createMuiTheme } from "@material-ui/core/styles";
+
+// const theme = createMuiTheme({
+// palette: {
+//   primary: {
+//     light: "#616161",
+//     main: "#757575",
+//   },
+//   secondary: deepOrange,
+//   green: green,
+// },
+// });
 
 ReactDOM.render(
   <React.StrictMode>
-    <ThemeProvider theme={theme}>
+    <Router>
+      {/* <ThemeProvider theme={theme}> */}
       <App />
-    </ThemeProvider>
+      {/* </ThemeProvider> */}
+    </Router>
   </React.StrictMode>,
   document.getElementById("root")
 );
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();

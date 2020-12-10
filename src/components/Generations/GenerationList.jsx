@@ -1,10 +1,13 @@
 import { Button } from "@material-ui/core";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useLocation } from "react-router-dom";
 import Loader from "../Loader";
+import Navbar from "../Navbar/Navbar";
 
 function GenerationListPokemons() {
+  let location = useLocation();
+  console.log(location.state.generationName);
   const { generationId } = useParams();
   console.log(generationId);
   const [generationData, setGenerationData] = useState([]);
@@ -14,11 +17,11 @@ function GenerationListPokemons() {
     async function getGenerationData() {
       const res = await axios.get(
         `https://pokeapi.co/api/v2/generation/${generationId}/`
-        );
-        console.log(res.data);
-        setGenerationData(res.data);
-        setisDataLoading(false);
-        document.body.style.backgroundColor = '#f5f2ef'
+      );
+      console.log(res.data);
+      setGenerationData(res.data);
+      setisDataLoading(false);
+      document.body.style.backgroundColor = "#f5f2ef";
     }
     getGenerationData();
   }, [generationId]);

@@ -2,7 +2,7 @@ body {
   margin: 0;
   box-sizing: border-box;
   font-family: "Roboto";
-  background-color: #f5f2ef;
+  /* background-color: #f5f2ef; */
 }
 
 h1,
@@ -16,7 +16,6 @@ h6 {
 
 /* CARDS */
 .card {
-  position: relative;
   margin: 20px;
   padding: 20px;
   border: 1px solid #cccccc;
@@ -33,56 +32,67 @@ h6 {
   min-height: 320px;
 }
 
+/* POSITIONS */
+.p-relative {
+  position: relative;
+}
+.p-absolute {
+  position: absolute;
+}
+
+/* TEXT ALIGN */
+.text-center {
+  text-align: center;
+}
+
+/* TITLES */
+.title-cap {
+ text-transform: capitalize;
+}
+
 /* CONTAINER */
 .pokedexContainer {
-  margin: auto important!;
+  margin: auto;
   padding: 50px 20px;
 }
-.pokemonDetailImgContainer {
-  padding: 0 20px 0 20px;
-  position: relative;
-  min-height: 150px;
+.pokemonDetailContainer {
+  margin: auto;
+  padding: 30px 20px;
 }
+/* GRID ITEMS */
 
 /* POKEMON IMAGES STYLES */
 .pokemonPokedexImg {
-  position: absolute;
   top: -80px;
   right: -20px;
   width: 50%;
 }
 .pokemonDetailImg {
+  width: 75%;
+}
+.pokemonGenImg {
   width: 40%;
 }
 .pokemonDetailImgLeft {
-  position: absolute;
   left: 5%;
   bottom: 2%;
 }
-
 .pokemonDetailImgMain {
-  position: absolute;
   left: 30%;
   z-index: 999;
   bottom: 4%;
 }
-
 .pokemonDetailImgRight {
-  position: absolute;
   right: 5%;
   bottom: 2%;
 }
 
-/* FLEX DISPLAY */
-
+/* DISPLAY */
 .d-flex {
   display: flex;
 }
-
-.flex-column {
-  display: flex;
-  /* flex-direction: column; */
-  justify-content: flex-end;
+.d-none {
+  display: none;
 }
 
 .pokemonName {

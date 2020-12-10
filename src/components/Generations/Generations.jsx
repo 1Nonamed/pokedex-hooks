@@ -4,6 +4,7 @@ import GenerationCard from "./GenerationCard";
 import Loader from "../../components/Loader";
 import { Grid, Typography } from "@material-ui/core";
 import "../../App.css";
+import Navbar from "../Navbar/Navbar";
 
 function PokemonGenerations() {
   const [generationsData, setGenerationsData] = useState([
@@ -27,7 +28,7 @@ function PokemonGenerations() {
   const getAllGenerationsData = async (data) => {
     const allGenerationsData = await Promise.all(
       data.map(async (gen) => {
-        let generationData = await getGenerationData(gen.url);
+        const generationData = await getGenerationData(gen.url);
         return generationData;
       })
     );
@@ -35,7 +36,7 @@ function PokemonGenerations() {
   };
 
   return (
-    <div>
+    <>
       {isDataLoading ? (
         <Loader />
       ) : (
@@ -46,7 +47,7 @@ function PokemonGenerations() {
           <GenerationCard generationsData={generationsData} />
         </>
       )}
-    </div>
+    </>
   );
 }
 

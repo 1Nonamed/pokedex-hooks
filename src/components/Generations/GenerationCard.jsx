@@ -62,7 +62,7 @@ function GenerationCard(props) {
               return (
                 <Grid item key={generation.id} xs={12} sm={6}>
                   <Grid
-                    className={`${generation.version_groups[0].name} card mh-320`}
+                    className={`${generation.version_groups[0].name} card p-relative mh-320`}
                   >
                     <Typography variant="h4">
                       Generation {generation.id} : {generation.main_region.name}
@@ -73,6 +73,7 @@ function GenerationCard(props) {
                     <Link
                       to={{
                         pathname: `/generations/${generation.id}`,
+                        state: { generationName: generation.main_region.name }
                       }}
                     >
                       <Button>See list of Pokemons</Button>
@@ -84,23 +85,23 @@ function GenerationCard(props) {
                       {generation.id === index + 1 ? (
                         <>
                           <img
-                            className="pokemonDetailImg pokemonDetailImgLeft"
+                            className="pokemonGenImg pokemonDetailImgLeft p-absolute"
                             src={getFullImage(pokemonsGenInfo[index][0].id)}
                             alt={pokemonsGenInfo.id}
                           />
                           <img
-                            className="pokemonDetailImg pokemonDetailImgMain"
+                            className="pokemonGenImg pokemonDetailImgMain p-absolute"
                             src={getFullImage(pokemonsGenInfo[index][1].id)}
                             alt={pokemonsGenInfo.id}
                           />
                           <img
-                            className="pokemonDetailImg pokemonDetailImgRight"
+                            className="pokemonGenImg pokemonDetailImgRight p-absolute"
                             src={getFullImage(pokemonsGenInfo[index][2].id)}
                             alt={pokemonsGenInfo.id}
                           />
                         </>
                       ) : (
-                        "Something went wrong"
+                        null
                       )}
                     </div>
                   </Grid>

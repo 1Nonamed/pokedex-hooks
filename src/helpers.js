@@ -39,6 +39,14 @@ export const getTypes = (types) => {
   return pokemonTypes;
 };
 
+export const getPokemonIdNumber = (number, length) => {
+  let str = "" + number;
+  while (str.length < length) {
+    str = "0" + str;
+  }
+  return str;
+};
+
 const colorArray = [
   {
     type: "none",
@@ -161,30 +169,51 @@ export const getDetailImage = (id) => {
   return pokemonImg;
 };
 
-// APPI CALLS
+export const getFirstEvo = async (name) => {
+  const res = await axios.get(`https://pokeapi.co/api/v2/pokemon/${name}`);
+  const pokemonId = res.data.id;
+  const result = getDetailImage(pokemonId);
+  return result;
+};
 
+export const typeImages = {
+  grass: "https://cdn.bulbagarden.net/upload/a/a8/Grass_icon_SwSh.png",
+  fire: "https://cdn.bulbagarden.net/upload/a/ab/Fire_icon_SwSh.png",
+  water: "https://cdn.bulbagarden.net/upload/8/80/Water_icon_SwSh.png",
+  bug: "https://cdn.bulbagarden.net/upload/9/9c/Bug_icon_SwSh.png",
+  poison: "https://cdn.bulbagarden.net/upload/8/8d/Poison_icon_SwSh.png",
+  normal: "https://cdn.bulbagarden.net/upload/9/95/Normal_icon_SwSh.png",
+  fighting: "https://cdn.bulbagarden.net/upload/3/3b/Fighting_icon_SwSh.png",
+  flying: "https://cdn.bulbagarden.net/upload/b/b5/Flying_icon_SwSh.png",
+  ground: "https://cdn.bulbagarden.net/upload/2/27/Ground_icon_SwSh.png",
+  rock: "https://cdn.bulbagarden.net/upload/1/11/Rock_icon_SwSh.png",
+  ghost: "https://cdn.bulbagarden.net/upload/0/01/Ghost_icon_SwSh.png",
+  steel: "https://cdn.bulbagarden.net/upload/0/09/Steel_icon_SwSh.png",
+  electric: "https://cdn.bulbagarden.net/upload/7/7b/Electric_icon_SwSh.png",
+  psychic: "https://cdn.bulbagarden.net/upload/7/73/Psychic_icon_SwSh.png",
+  ice: "https://cdn.bulbagarden.net/upload/1/15/Ice_icon_SwSh.png",
+  dragon: "https://cdn.bulbagarden.net/upload/7/70/Dragon_icon_SwSh.png",
+  dark: "https://cdn.bulbagarden.net/upload/d/d5/Dark_icon_SwSh.png",
+  fairy: "https://cdn.bulbagarden.net/upload/c/c6/Fairy_icon_SwSh.png",
+};
+
+// APPI CALLS
 // APP DATA
 export const getAllPokemons = async (url) => {
-  return new Promise((resolve, reject) => {
-    axios.get(url).then((data) => {
-      resolve(data);
-    });
-  });
+  return await axios.get(url);
 };
 
 export const getPokemonsData = async (url) => {
-  return new Promise((resolve, reject) => {
-    axios.get(url).then((data) => {
-      resolve(data.data);
-    });
-  });
+  const res = await axios.get(url);
+  const data = res.data;
+  return data;
 };
 
 // POKEMON DETAILS
 export const getEvolutionChain = async (url) => {
-  const responseEvolutionChain = await axios.get(url);
-  const evolutionData = responseEvolutionChain.data.chain;
-  return evolutionData;
+  const res = await axios.get(url);
+  const data = res.data.chain;
+  return data;
 };
 
 // GENERATIONS - REGIONS
@@ -193,19 +222,14 @@ export const getAllGenerations = async (url) => {
 };
 
 export const getGenerationData = async (url) => {
-  return new Promise((resolve, reject) => {
-    axios.get(url).then((data) => {
-      resolve(data.data);
-    });
-  });
+  const res = await axios.get(url);
+  const data = res.data;
+  return data;
 };
 
 // GENERATION CARD
-
-export const getPokemonGenData = async (data) => {
-  return new Promise((resolve, reject) => {
-    axios.get(data).then((data) => {
-      resolve(data.data);
-    });
-  });
+export const getPokemonGenData = async (url) => {
+  const res = await axios.get(url);
+  const data = res.data;
+  return data;
 };
